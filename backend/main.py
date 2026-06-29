@@ -3,6 +3,9 @@ import uuid
 import shutil
 from datetime import datetime
 
+import truststore
+truststore.inject_into_ssl()
+
 from dotenv import load_dotenv
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -10,7 +13,7 @@ from pydantic import BaseModel
 
 from rag import RAGEngine
 
-load_dotenv()
+load_dotenv(override=True)
 
 UPLOAD_DIR = os.path.join(os.path.dirname(__file__), "uploads")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
@@ -24,7 +27,7 @@ app = FastAPI(title="DocuMind API", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:3003"],
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
