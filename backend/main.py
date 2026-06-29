@@ -3,8 +3,11 @@ import uuid
 import shutil
 from datetime import datetime
 
-import truststore
-truststore.inject_into_ssl()
+try:
+    import truststore
+    truststore.inject_into_ssl()
+except ImportError:
+    pass
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, UploadFile, File, HTTPException
